@@ -1,4 +1,6 @@
-on: [push]
+on:
+  push:
+  workflow_dispatch:  # 수동 실행 기능 추가
 
   name: Create Custom VM Image
 
