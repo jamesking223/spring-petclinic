@@ -1,0 +1,38 @@
+name: Create Custom VM Image  # 워크플로우 이름
+
+on: [push]  # push 이벤트 발생 시 실행
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest  # 실행 환경 (Ubuntu 최신 버전 사용)
+    strategy:
+      matrix:
+        java: [ '17' ]  # Java 17 버전 사용
+
+    steps:
+      - name: Checkout  # GitHub 리포지토리 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: Login via Az module  # Azure 로그인
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set up JDK ${{matrix.java}}  # Java 17 설정
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{matrix.java}}
+          distribution: 'adopt'
+
+      - name: Build with Maven Wrapper  # Maven Wrapper로 빌드
+        run: ./mvnw -B package
+
+      - name: Build Java  # Maven을 사용하여 프로젝트 검증
+        run: mvn --batch-mode --update-snapshots verify
+
+      - run: mkdir staging && cp target/*.jar staging  # JAR 파일 이동
+
+      - uses: actions/upload-artifact@v2  # 빌드된 JAR 파일 업로드
+        with:
+          name: Package
+          path: staging
