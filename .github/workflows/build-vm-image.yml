@@ -49,5 +49,4 @@ on:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-          az vm create --resource-group ghactions-vMimage  --name "app-vm-${{ GITHUB.RUN_NUMBER }}"  --admin-username testadmin --admin-password "${{ secrets.VM_PWD }}" --location  eastus2 \
-              --image "${{ steps.imageBuilder.outputs.custom-image-uri }}"
+            az vm create --resource-group ghactions-vMimage  --name "app-vm-${{ GITHUB.RUN_NUMBER }}"  --admin-username testadmin --admin-password "${{ secrets.VM_PWD }}" --location  koreacentral --image "${{ steps.imageBuilder.outputs.custom-image-uri }}"
