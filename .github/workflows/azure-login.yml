@@ -1,0 +1,12 @@
+name: Create Custom VM Image  # 워크플로 이름
+
+on: [push]  # push 이벤트가 발생할 때 실행됨
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest  # 실행 환경
+    steps:
+      - name: Log in with Azure  # Azure 로그인 단계
+        uses: azure/login@v1  # Azure 공식 로그인 액션 사용
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'  # GitHub Secrets에서 가져오기
