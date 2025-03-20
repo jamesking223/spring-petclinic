@@ -39,5 +39,5 @@ jobs:
       with:
         azcliversion: 2.0.72
         inlineScript: |
-          az account show  # 현재 로그인 계정 확인
+          az account set --subscription 19eb594b-cdc5-4463-896e-5dbb5da01511
           az vm create --resource-group ghactions-vMimage  --name "app-vm-${{ GITHUB.RUN_NUMBER }}"  --admin-username testadmin --admin-password "${{ secrets.VM_PWD }}" --location  koreacentral --image "${{ steps.imageBuilder.outputs.custom-image-uri }}"
