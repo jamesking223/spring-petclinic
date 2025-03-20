@@ -16,6 +16,12 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
 
+    - name: Set active subscription
+      run: |
+        az account show  # 현재 로그인된 계정 정보 출력
+        az account set --subscription "$(az account show --query 'id' -o tsv)"  # 기본 구독 활성화
+        az account show  # 변경된 계정 정보 출력
+
     - name: Create App Baked Image
       id: imageBuilder
       uses: azure/build-vm-image@v0
@@ -26,9 +32,8 @@ jobs:
         source-os-type: 'windows'
         source-image-type: 'platformImage'
         source-image: MicrosoftWindowsServer:WindowsServer:2019-Datacenter:latest #unique identifier of source image
-        hyper-v-generation: 'V1'
         dist-type: 'SharedImageGallery'
-        dist-resource-id: '/subscriptions/19eb594b-cdc5-4463-896e-5dbb5da01511/resourceGroups/rg-aib-test-01/providers/Microsoft.Compute/galleries/acg_aib_test_01/images/img-def-test-01-v1/versions/0.0.2' #Replace with the resource id of your shared image  gallery's image definition
+        dist-resource-id: '/subscriptions/19eb594b-cdc5-4463-896e-5dbb5da01511/resourceGroups/rg-aib-test-01/providers/Microsoft.Compute/galleries/acg_aib_test_01/images/img-def-test-01-v1/versions/0.0.3' #Replace with the resource id of your shared image  gallery's image definition
         dist-location: 'koreacentral'
 
     - name: CREATE VM
