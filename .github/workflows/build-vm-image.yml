@@ -28,7 +28,7 @@ jobs:
         source-image: MicrosoftWindowsServer:WindowsServer:2019-Datacenter:latest #unique identifier of source image
         hyper-v-generation: 'V1'
         dist-type: 'SharedImageGallery'
-        dist-resource-id: '/subscriptions/19eb594b-cdc5-4463-896e-5dbb5da01511/resourceGroups/rg-aib-test-01/providers/Microsoft.Compute/galleries/acg_aib_test_01/images/img-def-test-01-v1/versions/0.1.${{ GITHUB.RUN_ID }}' #Replace with the resource id of your shared image  gallery's image definition
+        dist-resource-id: '/subscriptions/19eb594b-cdc5-4463-896e-5dbb5da01511/resourceGroups/rg-aib-test-01/providers/Microsoft.Compute/galleries/acg_aib_test_01/images/img-def-test-01-v1/versions/0.0.1' #Replace with the resource id of your shared image  gallery's image definition
         dist-location: 'koreacentral'
 
     - name: CREATE VM
