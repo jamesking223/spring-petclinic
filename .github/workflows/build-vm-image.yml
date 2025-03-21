@@ -45,13 +45,16 @@ jobs:
         az account show  # 현재 계정 정보 출력하여 확인
 
     - name: Re-Login Inside Azure CLI (To Persist Session)
-      run: |
-        az login --service-principal \
-          --username "$(jq -r .clientId <<< '${{ secrets.AZURE_CREDENTIALS }}')" \
-          --password "$(jq -r .clientSecret <<< '${{ secrets.AZURE_CREDENTIALS }}')" \
-          --tenant "$(jq -r .tenantId <<< '${{ secrets.AZURE_CREDENTIALS }}')"
-        az account set --subscription 19eb594b-cdc5-4463-896e-5dbb5da01511
-        az account show  # 다시 계정 정보 확인
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+          az login --service-principal \
+            --username "$(jq -r .clientId <<< '${{ secrets.AZURE_CREDENTIALS }}')" \
+            --password "$(jq -r .clientSecret <<< '${{ secrets.AZURE_CREDENTIALS }}')" \
+            --tenant "$(jq -r .tenantId <<< '${{ secrets.AZURE_CREDENTIALS }}')"
+          az account set --subscription 19eb594b-cdc5-4463-896e-5dbb5da01511
+          az account show  # 다시 계정 정보 확인
 
     - name: CREATE VM
       uses: azure/CLI@v1
