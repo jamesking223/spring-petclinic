@@ -34,6 +34,16 @@ jobs:
         dist-resource-id: '/subscriptions/19eb594b-cdc5-4463-896e-5dbb5da01511/resourceGroups/rg-aib-test-01/providers/Microsoft.Compute/galleries/acg_aib_test_01/images/img-def-test-01-v1/versions/0.1.0' #Replace with the resource id of your shared image  gallery's image definition
         dist-location: 'koreacentral'
 
+    - name: Ensure Azure Login (Before VM Creation)
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set active subscription (Before VM Creation)
+      run: |
+        az account set --subscription 19eb594b-cdc5-4463-896e-5dbb5da01511
+        az account show  # 현재 계정 정보 출력하여 확인
+
     - name: CREATE VM
       uses: azure/CLI@v1
       with:
